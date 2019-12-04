@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import CurrencySelect from "./CurrencySelect";
 import Amount from "./Amount";
+import right from "../assets/right.png";
 import styled from "styled-components";
 
 const GET_RATES = gql`
@@ -16,38 +17,62 @@ const GET_RATES = gql`
 
 const Wrapper = styled.div`
   padding: 4em;
+  display: flex;
+  flex-direction: row;
+  min-height: 100%;
+  @media (max-width: 830px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const CurrencyBlock = styled.div`
   max-width: 300px;
+  display: flex;
+  flex-direction: column;
 `;
 
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
+const Button = styled.button`
+  margin: 24px;
+  border: none;
+  border-radius: 50%;
 `;
 
-const Arrow = styled.i`
-  transform: rotate(45deg);
+const Arrow = styled.div`
+  width: 32px;
+  height: 32px;
+  background: url(${right}) no-repeat;
+  background-size: 32px 32px;
+
+  @media (max-width: 830px) {
+    transform: rotate(90deg);
+  }
 `;
 
 export function getConvertedAmount(amount, rates, fromCurrency, toCurrency) {
   if (fromCurrency === toCurrency) {
     return amount;
   } else {
-    const targetRate =
-      toCurrency && rates.find(rate => rate.symbol === toCurrency);
-    const result = amount * targetRate.rate;
-    return Number(result.toFixed(2));
+    const targetRate = rates.find(rate => rate.symbol === toCurrency);
+
+    if (targetRate) {
+      const result = amount * targetRate.rate;
+      return Number(result.toFixed(2));
+    } else {
+      return null;
+    }
   }
 }
 
 function Converter() {
   const [fromCurrency, setFromCurrency] = useState({
     symbol: "USD",
-    name: "United States Dollar"
+    name: "🇺🇸 United States Dollar"
   });
 
   const [toCurrency, setToCurrency] = useState({
     symbol: "EUR",
-    name: "European Euro"
+    name: "🇪🇺 European Euro"
   });
 
   const [amount, setAmount] = useState(0);
@@ -67,27 +92,41 @@ function Converter() {
       toCurrency.symbol
     );
 
+  const switchCurrencies = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+  };
+
   return (
-    <Wrapper>
-      <Title>Currency Converter</Title>
-      <CurrencySelect setCurrency={setFromCurrency} currency={fromCurrency} />
+    <>
+      <Wrapper>
+        <CurrencyBlock>
+          <CurrencySelect
+            setCurrency={setFromCurrency}
+            currency={fromCurrency}
+          />
 
-      <Amount
-        setAmount={setAmount}
-        amount={amount}
-        symbol={fromCurrency.symbol}
-      />
+          <Amount
+            setAmount={setAmount}
+            amount={amount}
+            symbol={fromCurrency.symbol}
+          />
+        </CurrencyBlock>
+        <Button onClick={switchCurrencies}>
+          <Arrow />
+        </Button>
 
-      <Arrow />
+        <CurrencyBlock>
+          <CurrencySelect setCurrency={setToCurrency} currency={toCurrency} />
 
-      <CurrencySelect setCurrency={setToCurrency} currency={toCurrency} />
-
-      <Amount
-        disabled={true}
-        amount={convertedAmount}
-        symbol={toCurrency.symbol}
-      />
-    </Wrapper>
+          <Amount
+            disabled={true}
+            amount={convertedAmount}
+            symbol={toCurrency.symbol}
+          />
+        </CurrencyBlock>
+      </Wrapper>
+    </>
   );
 }
 

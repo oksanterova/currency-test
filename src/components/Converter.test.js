@@ -11,7 +11,13 @@ it("converts amount", () => {
   ];
   const fromCurrency = "USD";
   const toCurrency = "RUB";
-  expect(getConvertedAmount(amount, rates, fromCurrency, toCurrency)).toEqual(
-    64.15
+
+  const convertedAmount = getConvertedAmount(
+    amount,
+    rates,
+    fromCurrency,
+    toCurrency
   );
+
+  expect(convertedAmount).toEqual(64.15);
 });

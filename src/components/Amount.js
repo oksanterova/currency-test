@@ -3,19 +3,19 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const InputWrapper = styled.div`
-  max-height: 37px;
+  max-height: 38px;
   min-width: 296px;
   border-radius: 4px;
   border: 1px solid lightgrey;
   display: flex;
   flex-direction: row;
-  margin: 20px 0 20px 0;
+  margin-top: 20px;
 `;
 
 const Input = styled.input`
   min-width: 218px;
   font-size: 1em;
-  max-height: 36px;
+  max-height: 38px;
   padding: 8px;
   ${props =>
     props.disabled &&

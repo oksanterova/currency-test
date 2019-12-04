@@ -11,27 +11,27 @@ let config = {
 
 const currencies = [
   {
-    name: "United States Dollar",
+    name: "🇺🇸 United States Dollar",
     symbol: "USD"
   },
   {
-    name: "Russian Ruble",
+    name: "🇷🇺 Russian Ruble",
     symbol: "RUB"
   },
   {
-    name: "Swedish Krona",
+    name: "🇸🇪 Swedish Krona",
     symbol: "SEK"
   },
   {
-    name: "European Euro",
+    name: "🇪🇺 European Euro",
     symbol: "EUR"
   },
   {
-    name: "Pound Sterling",
+    name: "🇬🇧 Pound Sterling",
     symbol: "GBP"
   },
   {
-    name: "Swiss Franc",
+    name: "🇨🇭 Swiss Franc",
     symbol: "CHF"
   }
 ];
