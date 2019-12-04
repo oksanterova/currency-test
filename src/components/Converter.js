@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import CurrencySelect from "./CurrencySelect";
+import Amount from "./Amount";
 import styled from "styled-components";
+
+const GET_RATES = gql`
+  query GetRates($base: String!) {
+    rates(base: $base) {
+      rate
+      symbol
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   padding: 4em;
-  background: lightgrey;
+  max-width: 300px;
 `;
 
 const Title = styled.h1`
@@ -13,35 +24,69 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const Currencies = styled.ul`
-  list-style-type: none;
+const Arrow = styled.i`
+  transform: rotate(45deg);
 `;
 
-const Currency = styled.li``;
-
-export const GET_CURRENCIES = gql`
-  query GetCurrencies {
-    currencies {
-      name
-      symbol
-    }
+function getConvertedAmount(amount, rates, fromCurrency, toCurrency) {
+  if (fromCurrency === toCurrency) {
+    return amount;
+  } else {
+    const targetRate =
+      toCurrency && rates.find(rate => rate.symbol === toCurrency);
+    const result = amount * targetRate.rate;
+    return Number(result.toFixed(2));
   }
-`;
+}
 
 function Converter() {
-  const { loading, error, data } = useQuery(GET_CURRENCIES);
+  const [fromCurrency, setFromCurrency] = useState({
+    symbol: "USD",
+    name: "United States Dollar"
+  });
+
+  const [toCurrency, setToCurrency] = useState({
+    symbol: "EUR",
+    name: "European Euro"
+  });
+
+  const [amount, setAmount] = useState(0);
+
+  const { error, data } = useQuery(GET_RATES, {
+    variables: { base: fromCurrency.symbol }
+  });
 
   if (error) return <p>Error</p>;
-  if (loading) return <p>Loading ...</p>;
+
+  const convertedAmount =
+    data &&
+    getConvertedAmount(
+      amount,
+      data.rates,
+      fromCurrency.symbol,
+      toCurrency.symbol
+    );
 
   return (
     <Wrapper>
       <Title>Currency Converter</Title>
-      <Currencies>
-        {data.currencies.map(currency => (
-          <Currency key={currency.name}>{currency.name}</Currency>
-        ))}
-      </Currencies>
+      <CurrencySelect setCurrency={setFromCurrency} currency={fromCurrency} />
+
+      <Amount
+        setAmount={setAmount}
+        amount={amount}
+        symbol={fromCurrency.symbol}
+      />
+
+      <Arrow />
+
+      <CurrencySelect setCurrency={setToCurrency} currency={toCurrency} />
+
+      <Amount
+        disabled={true}
+        amount={convertedAmount}
+        symbol={toCurrency.symbol}
+      />
     </Wrapper>
   );
 }
