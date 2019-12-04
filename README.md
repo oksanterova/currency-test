@@ -1,4 +1,14 @@
+# currency-test
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+It allows to convert any amount between 6 most popular currencies: USD, SEK, GBP, RUB, EUR and CHF. You can convert in both ways, i.e., switch currencies by clicking arrow button.
+
+Provided rates are relevant as of December 3rd, 2019. [Fixer.io free plan](https://fixer.io/product) does not allow fetching data for any base currency, except for EUR. If you have Basic plan or higher, you can set `FAKE_FIXER` environment variable to `false`, specify `ACCESS_KEY` and fetch updated data.
+
+Project is made with Node Express Apollo Server with GraphQL on the backend and React Apollo Styled components on the frontend. Tests are written in Jest, code quality is guaranteed by EsLint, Prettier and other plugins.
+
+Currency test app is [deployed on Heroku](https://currency-app-test.herokuapp.com/).
 
 ## Available Scripts
 
@@ -11,6 +21,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+Open [http://localhost:4000/graphql](http://localhost:4000/graphql) to access GraphQL playground and test queries.
+Server and client can be shown and edited at the same time thanks to Nodemon and Concurrently.
 
 ### `yarn test`
 
@@ -36,33 +49,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
