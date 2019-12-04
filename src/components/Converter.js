@@ -28,7 +28,7 @@ const Arrow = styled.i`
   transform: rotate(45deg);
 `;
 
-function getConvertedAmount(amount, rates, fromCurrency, toCurrency) {
+export function getConvertedAmount(amount, rates, fromCurrency, toCurrency) {
   if (fromCurrency === toCurrency) {
     return amount;
   } else {
