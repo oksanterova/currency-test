@@ -2,6 +2,7 @@ const express = require("express");
 const fetch = require("node-fetch");
 const { ApolloServer, gql } = require("apollo-server-express");
 const fakeFixer = require("./fake_fixer");
+const path = require("path");
 
 let config = {
   accessKey: process.env.ACCESS_KEY,
@@ -92,6 +93,8 @@ const server = new ApolloServer({
 });
 
 server.applyMiddleware({ app, path: "/graphql" });
+
+app.use(express.static(path.join(__dirname, "../build")));
 
 app.listen({ port: config.port }, () => {
   console.log(`Apollo Server on http://localhost:${config.port}/graphql`);
