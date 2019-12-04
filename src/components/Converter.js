@@ -39,7 +39,7 @@ function Converter() {
       <Title>Currency Converter</Title>
       <Currencies>
         {data.currencies.map(currency => (
-          <Currency>{currency.name}</Currency>
+          <Currency key={currency.name}>{currency.name}</Currency>
         ))}
       </Currencies>
     </Wrapper>
